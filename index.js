@@ -36,7 +36,14 @@ async function run() {
       res.send(result);
     })
     app.get("/todos", async(req,res)=>{
-      const result = await todosCollection.find().toArray();
+      const request = req.query;
+      let query = {};
+      if(request.email){
+        query = {
+          user: request.email
+        }
+      }
+      const result = await todosCollection.find(query).toArray();
       res.send(result);
     })
 
