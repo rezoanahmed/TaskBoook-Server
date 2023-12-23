@@ -53,6 +53,17 @@ async function run() {
       const result = await todosCollection.deleteOne(query);
       res.send(result);
     })
+    app.patch("/todos/:id", async(req,res)=>{
+      const id = req.params.id;
+      const updatedDoc = {
+        $set: {
+          status: "completed",
+        }
+      }
+      const query = {_id: new ObjectId(id)};
+      const result = await todosCollection.updateOne(query, updatedDoc);
+      res.send(result);
+    })
 
 
 
