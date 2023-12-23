@@ -9,7 +9,7 @@ app.use(cors())
 app.use(express.json());
 // mongodb
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.user}:${process.env.pass}@cluster0.evakdll.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -44,6 +44,13 @@ async function run() {
         }
       }
       const result = await todosCollection.find(query).toArray();
+      res.send(result);
+    })
+
+    app.delete("/todos/:id", async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await todosCollection.deleteOne(query);
       res.send(result);
     })
 
